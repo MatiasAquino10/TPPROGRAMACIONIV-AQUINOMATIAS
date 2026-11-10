@@ -1,0 +1,266 @@
+GET http://localhost:3000/alumnos
+
+###
+GET http://localhost:3000/alumnos/1002
+
+###
+POST http://localhost:3000/alumnos
+Content-Type: application/json
+
+{
+    "legajo": 1023,
+    "nombre": "Ramón",
+    "carrera": "Sistemas",
+    "correo": "ramon@mail.com"
+}
+###
+PUT http://localhost:3000/alumnos/1002
+Content-Type: application/json
+
+{
+    "nombre": "Juan Carlos",
+    "carrera": "Programación",
+    "correo": "juan@mail.com"
+}
+
+###
+DELETE http://localhost:3000/alumnos/1021
+
+###
+POST http://localhost:3000/alumnos
+Content-Type: application/json
+
+{
+    "id": 5,
+    "nombre": "Rocío",
+    "carrera": "Programación"
+}
+
+###
+GET http://localhost:3000/docentes
+
+###
+POST http://localhost:3000/docentes
+Content-Type: application/json
+
+{
+    "dni": 5222311,
+    "nombre": "Rocío",
+    "especialidad": "Programación",
+    "correo": "rocio@mail.com"
+}
+
+### MATERIAS
+
+### 1. Consultar todas (colección vacía) -> 200 y []
+GET http://localhost:3000/materias
+
+### 5. Alta con todos los datos válidos -> 201
+POST http://localhost:3000/materias
+Content-Type: application/json
+
+{
+    "codigo": "PRG4",
+    "nombre": "Programación IV",
+    "descripcion": "Express, Mongoose y React",
+    "cargaHoraria": 96,
+    "estado": "activa"
+}
+
+### 2a. Registrar otra materia -> 201
+POST http://localhost:3000/materias
+Content-Type: application/json
+
+{
+    "codigo": "BD1",
+    "nombre": "Base de Datos I",
+    "descripcion": "Modelo relacional y SQL",
+    "cargaHoraria": 72,
+    "estado": "activa"
+}
+
+### 2b. Registrar una tercera materia -> 201
+POST http://localhost:3000/materias
+Content-Type: application/json
+
+{
+    "codigo": "PRG3",
+    "nombre": "Programación III",
+    "cargaHoraria": 96,
+    "estado": "inactiva"
+}
+
+### 2c. Verificar que aparezcan en el listado -> 200 con 3 materias
+GET http://localhost:3000/materias
+
+### 3. Consultar una materia por su código -> 200
+GET http://localhost:3000/materias/PRG4
+
+### 4. Consultar un código inexistente -> 404
+GET http://localhost:3000/materias/XXX
+
+### 6a. Alta sin código -> 400
+POST http://localhost:3000/materias
+Content-Type: application/json
+
+{
+    "nombre": "Sin código",
+    "cargaHoraria": 48,
+    "estado": "activa"
+}
+
+### 6b. Alta con código de solo espacios -> 400
+POST http://localhost:3000/materias
+Content-Type: application/json
+
+{
+    "codigo": "   ",
+    "nombre": "Código con espacios",
+    "cargaHoraria": 48,
+    "estado": "activa"
+}
+
+### 7a. Alta sin nombre -> 400
+POST http://localhost:3000/materias
+Content-Type: application/json
+
+{
+    "codigo": "SIN1",
+    "cargaHoraria": 48,
+    "estado": "activa"
+}
+
+### 7b. Alta con nombre de solo espacios -> 400
+POST http://localhost:3000/materias
+Content-Type: application/json
+
+{
+    "codigo": "SIN1",
+    "nombre": "   ",
+    "cargaHoraria": 48,
+    "estado": "activa"
+}
+
+### 8. Alta sin carga horaria -> 400
+POST http://localhost:3000/materias
+Content-Type: application/json
+
+{
+    "codigo": "SIN2",
+    "nombre": "Sin carga horaria",
+    "estado": "activa"
+}
+
+### 9a. Carga horaria igual a cero -> 400
+POST http://localhost:3000/materias
+Content-Type: application/json
+
+{
+    "codigo": "SIN3",
+    "nombre": "Carga cero",
+    "cargaHoraria": 0,
+    "estado": "activa"
+}
+
+### 9b. Carga horaria negativa -> 400
+POST http://localhost:3000/materias
+Content-Type: application/json
+
+{
+    "codigo": "SIN3",
+    "nombre": "Carga negativa",
+    "cargaHoraria": -10,
+    "estado": "activa"
+}
+
+### 9c. Carga horaria decimal -> 400
+POST http://localhost:3000/materias
+Content-Type: application/json
+
+{
+    "codigo": "SIN3",
+    "nombre": "Carga decimal",
+    "cargaHoraria": 48.5,
+    "estado": "activa"
+}
+
+### 10. Código duplicado -> 400
+POST http://localhost:3000/materias
+Content-Type: application/json
+
+{
+    "codigo": "PRG4",
+    "nombre": "Otro nombre distinto",
+    "cargaHoraria": 48,
+    "estado": "activa"
+}
+
+### 11. Estado no permitido -> 400
+POST http://localhost:3000/materias
+Content-Type: application/json
+
+{
+    "codigo": "SIN4",
+    "nombre": "Estado inválido",
+    "cargaHoraria": 48,
+    "estado": "pendiente"
+}
+
+### 12. Modificar nombre y descripción -> 200
+PUT http://localhost:3000/materias/PRG4
+Content-Type: application/json
+
+{
+    "codigo": "PRG4",
+    "nombre": "Programación 4",
+    "descripcion": "Descripción modificada",
+    "cargaHoraria": 96,
+    "estado": "activa"
+}
+
+### 13. Modificar carga horaria y estado -> 200
+PUT http://localhost:3000/materias/PRG4
+Content-Type: application/json
+
+{
+    "codigo": "PRG4",
+    "nombre": "Programación 4",
+    "descripcion": "Descripción modificada",
+    "cargaHoraria": 120,
+    "estado": "inactiva"
+}
+
+### 14. Modificar una materia inexistente -> 404
+PUT http://localhost:3000/materias/XXX
+Content-Type: application/json
+
+{
+    "codigo": "XXX",
+    "nombre": "No existe",
+    "cargaHoraria": 48,
+    "estado": "activa"
+}
+
+### 15. Cambiar el código por el de otra materia registrada -> 400
+PUT http://localhost:3000/materias/PRG4
+Content-Type: application/json
+
+{
+    "codigo": "BD1",
+    "nombre": "Programación 4",
+    "descripcion": "Descripción modificada",
+    "cargaHoraria": 120,
+    "estado": "inactiva"
+}
+
+### 16a. Eliminar una materia existente -> 200
+DELETE http://localhost:3000/materias/BD1
+
+### 16b. Consultarla nuevamente -> 404
+GET http://localhost:3000/materias/BD1
+
+### 17. Eliminar una materia inexistente -> 404
+DELETE http://localhost:3000/materias/XXX
+
+### 18. Listado final: PRG4 modificada, BD1 eliminada -> 200 con 2 materias (PRG4 y PRG3)
+GET http://localhost:3000/materias
